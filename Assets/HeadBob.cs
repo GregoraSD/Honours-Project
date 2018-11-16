@@ -29,7 +29,13 @@ public class HeadBob: MonoBehaviour
     private float randomHeightScale = 1.0f;
     private float randomRotationScale = 1.0f;
 
-	void Update () 
+    private void Start()
+    {
+        enabled = false;
+        enabled = true;
+    }
+
+    void Update () 
 	{
         float moveScale = FindObjectOfType<PlayerController>().moveScale;
 

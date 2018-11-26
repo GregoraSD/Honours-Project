@@ -12,7 +12,7 @@ public class HeadBob: MonoBehaviour
     private bool ignoreLowerBob = false;
 
     [SerializeField]
-    private Vector3 rotationStrength, rotationClamp, idleScale;
+    private Vector3 rotationStrength = new Vector3(35.0f, 0.0f, 35.0f), rotationClamp = new Vector3(2.0f, 0.0f, 1.5f), idleScale = new Vector3(2.4f, 2.3f, 2.1f);
 
     [SerializeField]
     private float reverseRotationClamp;

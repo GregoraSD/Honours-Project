@@ -6,13 +6,13 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    private float moveSpeed = 2.0f, sensitivity = 5.0f, upDownRange = 6.0f, pickupRange = 5.0f;
+    private float moveSpeed = 2.0f, sensitivity = 5.0f, upDownRange = 6.0f;
 
     public float moveScale = 1.0f;
     public float rotationScale = 1.0f;
     public float gravityScale = 1.0f;
 
-    private float forwardSpeed = 0.0f, sideSpeed = 0.0f, verticalRotation = 0.0f, verticalVelocity = 0.0f;
+    private float forwardSpeed = 0.0f, sideSpeed = 0.0f, verticalVelocity = 0.0f;
 
     private CharacterController characterController;
 
@@ -22,13 +22,9 @@ public class PlayerController : MonoBehaviour
     private float rotY;
     private float rotX;
 
-    private List<float> rotYlist;
     private List<float> rotXlist;
 
     public float max_x_turn = 15.0f;
-
-    [SerializeField]
-    int rotation_smooth = 5;
 
     // Use this for initialization
     void Start()
@@ -45,13 +41,10 @@ public class PlayerController : MonoBehaviour
         //RotatePlayer(new Vector3(0.0f, 180.0f, 0.0f));
 
         rotXlist = new List<float>();
-        rotYlist = new List<float>();
-
     }
 
 	void RotatePlayer(Vector3 angle)
 	{
-		Quaternion rot = Quaternion.Euler(angle.x, angle.y, angle.y);
 		transform.Rotate (angle);//  new Vector3(angle.x, angle.y, angle.z);
 	}
 

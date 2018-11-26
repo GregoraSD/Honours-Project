@@ -41,53 +41,84 @@ public class Trigger : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        // Adjust pos so that pivot is at the bottom
-        Vector3 pos = new Vector3(transform.position.x, transform.position.y + (size.y / 2), transform.position.z);
-
+        // Get current rotation from the object
         Quaternion rot = Quaternion.Euler(transform.localRotation.eulerAngles.x, transform.localRotation.eulerAngles.y, transform.localRotation.eulerAngles.z);
 
+        // Define Cube Points
         Vector3[] points = new Vector3[8];
-        points[0] = new Vector3(size.x / 2, 0.0f, size.z / 2);
-        points[1] = new Vector3(size.x / 2, 0.0f, -size.z / 2);
+        points[0] = rot * new Vector3(size.x / 2, 0.0f, size.z / 2);
+        points[1] = rot * new Vector3(size.x / 2, 0.0f, -size.z / 2);
+        points[2] = rot * new Vector3(-size.x / 2, 0.0f, size.z / 2);
+        points[3] = rot * new Vector3(-size.x / 2, 0.0f, -size.z / 2);
+        points[4] = rot * new Vector3(size.x / 2, size.y, size.z / 2);
+        points[5] = rot * new Vector3(size.x / 2, size.y, -size.z / 2);
+        points[6] = rot * new Vector3(-size.x / 2, size.y, size.z / 2);
+        points[7] = rot * new Vector3(-size.x / 2, size.y, -size.z / 2);
 
-        // Draw a wire cube at the location of the trigger
+        // Set Color
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(pos, rot * size);
-        
-        for(int i = 0; i < points.Length; i++)
-        {
-            Gizmos.DrawWireSphere((rot * points[i]) + transform.position, 0.1f);
-        }
+
+        // Draw lines in cube shape
+        Gizmos.DrawLine(transform.position + points[0], transform.position + points[1]);
+        Gizmos.DrawLine(transform.position + points[0], transform.position + points[2]);
+        Gizmos.DrawLine(transform.position + points[1], transform.position + points[3]);
+        Gizmos.DrawLine(transform.position + points[2], transform.position + points[3]);
+        Gizmos.DrawLine(transform.position + points[4], transform.position + points[5]);
+        Gizmos.DrawLine(transform.position + points[4], transform.position + points[6]);
+        Gizmos.DrawLine(transform.position + points[5], transform.position + points[7]);
+        Gizmos.DrawLine(transform.position + points[6], transform.position + points[7]);
+        Gizmos.DrawLine(transform.position + points[0], transform.position + points[4]);
+        Gizmos.DrawLine(transform.position + points[1], transform.position + points[5]);
+        Gizmos.DrawLine(transform.position + points[2], transform.position + points[6]);
+        Gizmos.DrawLine(transform.position + points[3], transform.position + points[7]);
     }
 
     private void OnDrawGizmosSelected()
     {
-        if(triggerEnterResponse != null)
+        DrawEventGizmos(triggerEnterResponse, "On Trigger Enter");
+        DrawEventGizmos(triggerExitResponse, "On Trigger Exit");
+        DrawEventGizmos(triggerStayResponse, "On Trigger Stay");
+    }
+
+    private void DrawEventGizmos(UnityEvent e, string typeLabel)
+    {
+        if (e != null)
         {
-            for(int i = 0; i < triggerEnterResponse.GetPersistentEventCount(); i++)
+            for (int i = 0; i < e.GetPersistentEventCount(); i++)
             {
-                if(triggerEnterResponse.GetPersistentTarget(i) != null)
+                if (e.GetPersistentTarget(i) != null)
                 {
+
                     // Get component and object reference to determine final target transform
-                    Component component = triggerEnterResponse.GetPersistentTarget(i) as Component;
-                    GameObject obj = triggerEnterResponse.GetPersistentTarget(i) as GameObject;
+                    Component component = e.GetPersistentTarget(i) as Component;
+                    GameObject obj = e.GetPersistentTarget(i) as GameObject;
                     Transform target = component == null ? obj.transform : component.gameObject.transform;
 
                     // Determine component name & method name of this event
                     string componentName = component == null ? "Game Object" : component.GetType().Name;
-                    string methodName = triggerEnterResponse.GetPersistentMethodName(i).Length > 0 ? triggerEnterResponse.GetPersistentMethodName(i) : "No Function";
+                    string methodName = e.GetPersistentMethodName(i).Length > 0 ? e.GetPersistentMethodName(i) : "No Function";
 
+                    // Object vectors
                     Vector3 triggerCenter = transform.position + new Vector3(0.0f, size.y / 2, 0.0f);
-                    Vector3 toTargetCenter = triggerCenter + (target.position - triggerCenter) / 2;
-                    Vector3 toTargetPerp = Vector3.Cross(target.position - triggerCenter, Vector3.up).normalized;
+                    Vector3 lineCenter = triggerCenter + (target.position - triggerCenter) / 2;
+                    Vector3 linePerpendicular = Vector3.Cross(target.position - triggerCenter, Vector3.up).normalized * 0.5f;
 
                     // Draw a line from the trigger to the event object
                     Handles.DrawDottedLine(triggerCenter, target.position, 2.0f);
                     Gizmos.DrawWireSphere(triggerCenter, 0.03f);
                     Gizmos.DrawWireSphere(target.position, 0.03f);
 
+                    Mesh targetMesh = target.gameObject.GetComponent<MeshFilter>() == null ? null : target.gameObject.GetComponent<MeshFilter>().sharedMesh;
+                    Gizmos.color = new Color(1.0f, 0.0f, 0.0f, 0.7f);
+                    Gizmos.DrawWireMesh(targetMesh, target.position, target.rotation, target.localScale);
+                    Gizmos.color = Color.white;
+
+                    // Draw arrow
+                    Handles.DrawDottedLine(lineCenter, (lineCenter + Quaternion.Euler(0.0f, -45.0f, 0.0f) * linePerpendicular), 2.0f);
+                    Handles.DrawDottedLine(lineCenter, (lineCenter - Quaternion.Euler(0.0f, 45.0f, 0.0f) * linePerpendicular), 2.0f);
+
                     // Draw event labels
-                    Handles.Label(toTargetCenter, "On Trigger Enter", EditorStyles.centeredGreyMiniLabel);
+                    Handles.Label(lineCenter, typeLabel, EditorStyles.whiteMiniLabel);
                     Handles.Label(target.position, target.name + " (" + componentName + "):", EditorStyles.whiteBoldLabel);
                     Handles.Label(target.position, "\n   -" + methodName, EditorStyles.whiteLabel);
                 }

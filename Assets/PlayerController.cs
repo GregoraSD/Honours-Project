@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -38,8 +36,6 @@ public class PlayerController : MonoBehaviour
         rotY = transform.rotation.eulerAngles.x;
         rotX = transform.rotation.eulerAngles.y;
 
-        //RotatePlayer(new Vector3(0.0f, 180.0f, 0.0f));
-
         rotXlist = new List<float>();
     }
 
@@ -62,16 +58,10 @@ public class PlayerController : MonoBehaviour
             rotY += mouseY * sensitivity * Time.deltaTime * rotationScale;
             rotX = mouseX * sensitivity * Time.deltaTime * rotationScale; 
 
-            //if(rotX > 0.0f)
-            //{
             rotXlist.Add(rotX);
-            //}
-           
 
             transform.Rotate(new Vector3(0.0f, rotX, 0.0f));
 
-            // Quaternion xRotation = Quaternion.Euler(0.0f, rotX, 0.0f);
-            //transform.localRotation = xRotation;
             rotY = Mathf.Clamp(rotY, -upDownRange, upDownRange);
 
 

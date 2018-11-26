@@ -46,14 +46,21 @@ public class Trigger : MonoBehaviour
 
         // Define Cube Points
         Vector3[] points = new Vector3[8];
-        points[0] = rot * new Vector3(size.x / 2, 0.0f, size.z / 2);
-        points[1] = rot * new Vector3(size.x / 2, 0.0f, -size.z / 2);
-        points[2] = rot * new Vector3(-size.x / 2, 0.0f, size.z / 2);
-        points[3] = rot * new Vector3(-size.x / 2, 0.0f, -size.z / 2);
-        points[4] = rot * new Vector3(size.x / 2, size.y, size.z / 2);
-        points[5] = rot * new Vector3(size.x / 2, size.y, -size.z / 2);
-        points[6] = rot * new Vector3(-size.x / 2, size.y, size.z / 2);
-        points[7] = rot * new Vector3(-size.x / 2, size.y, -size.z / 2);
+        points[0] = new Vector3(size.x / 2, 0.0f, size.z / 2);
+        points[1] = new Vector3(size.x / 2, 0.0f, -size.z / 2);
+        points[2] = new Vector3(-size.x / 2, 0.0f, size.z / 2);
+        points[3] = new Vector3(-size.x / 2, 0.0f, -size.z / 2);
+        points[4] = new Vector3(size.x / 2, size.y, size.z / 2);
+        points[5] = new Vector3(size.x / 2, size.y, -size.z / 2);
+        points[6] = new Vector3(-size.x / 2, size.y, size.z / 2);
+        points[7] = new Vector3(-size.x / 2, size.y, -size.z / 2);
+
+        // Scale & Rotate
+        for(int i = 0; i < points.Length; i++)
+        {
+            points[i].Scale(transform.localScale);
+            points[i] = rot * points[i];
+        }
 
         // Set Color
         Gizmos.color = Color.green;
@@ -75,6 +82,7 @@ public class Trigger : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
+        // Draw all event debug information
         DrawEventGizmos(triggerEnterResponse, "On Trigger Enter");
         DrawEventGizmos(triggerExitResponse, "On Trigger Exit");
         DrawEventGizmos(triggerStayResponse, "On Trigger Stay");
@@ -108,6 +116,7 @@ public class Trigger : MonoBehaviour
                     Gizmos.DrawWireSphere(triggerCenter, 0.03f);
                     Gizmos.DrawWireSphere(target.position, 0.03f);
 
+                    // Draw the mesh of the target (if it has one)
                     Mesh targetMesh = target.gameObject.GetComponent<MeshFilter>() == null ? null : target.gameObject.GetComponent<MeshFilter>().sharedMesh;
                     Gizmos.color = new Color(1.0f, 0.0f, 0.0f, 0.7f);
                     Gizmos.DrawWireMesh(targetMesh, target.position, target.rotation, target.localScale);

@@ -33,6 +33,7 @@ public class TriggerEditor : Editor
         if(GUILayout.Button("Reset"))
         {
             trigger.size = Vector3.one;
+            trigger.transform.localScale = Vector3.one;
             SceneView.RepaintAll();
         }
 

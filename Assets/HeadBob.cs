@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HeadBob: MonoBehaviour 
 {
-
 	[SerializeField]
 	private float bobSpeed = 0.18f, bobAmount = 0.2f, midpoint = 2.0f;
 

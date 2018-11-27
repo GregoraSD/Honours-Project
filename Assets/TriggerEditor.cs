@@ -34,7 +34,22 @@ public class TriggerEditor : Editor
         {
             trigger.size = Vector3.one;
             trigger.transform.localScale = Vector3.one;
+            trigger.transform.rotation = Quaternion.identity;
             SceneView.RepaintAll();
+        }
+
+        GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+
+        if(GUILayout.Button("Rotate -90°"))
+        {
+            trigger.transform.Rotate(Vector3.up, -90.0f);
+        }
+
+        if(GUILayout.Button("Rotate 90°"))
+        {
+            trigger.transform.Rotate(Vector3.up, 90.0f);
         }
 
         GUILayout.EndHorizontal();

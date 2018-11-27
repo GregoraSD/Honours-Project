@@ -96,7 +96,6 @@ public class Trigger : MonoBehaviour
             {
                 if (e.GetPersistentTarget(i) != null)
                 {
-
                     // Get component and object reference to determine final target transform
                     Component component = e.GetPersistentTarget(i) as Component;
                     GameObject obj = e.GetPersistentTarget(i) as GameObject;
@@ -106,25 +105,38 @@ public class Trigger : MonoBehaviour
                     string componentName = component == null ? "Game Object" : component.GetType().Name;
                     string methodName = e.GetPersistentMethodName(i).Length > 0 ? e.GetPersistentMethodName(i) : "No Function";
 
+                    Quaternion currentRot = transform.rotation;
+                    Vector3 currentPos = transform.position;
+                    transform.position += new Vector3(0.0f, size.y / 2, 0.0f);
+                    transform.LookAt(target);
+                    Vector3 perpendicularUp = transform.up;
+                    transform.rotation = currentRot;
+                    transform.position = currentPos;
+
                     // Object vectors
-                    Vector3 triggerCenter = transform.position + new Vector3(0.0f, size.y / 2, 0.0f);
+                    Vector3 triggerCenter = transform.position + transform.up * (size.y / 2);
                     Vector3 lineCenter = triggerCenter + (target.position - triggerCenter) / 2;
-                    Vector3 linePerpendicular = Vector3.Cross(target.position - triggerCenter, Vector3.up).normalized * 0.5f;
+                    Vector3 linePerpendicular = Vector3.Cross(target.position - triggerCenter, perpendicularUp).normalized * 0.5f;
 
                     // Draw a line from the trigger to the event object
-                    Handles.DrawDottedLine(triggerCenter, target.position, 2.0f);
+                    Gizmos.DrawLine(triggerCenter, target.position);
                     Gizmos.DrawWireSphere(triggerCenter, 0.03f);
                     Gizmos.DrawWireSphere(target.position, 0.03f);
 
                     // Draw the mesh of the target (if it has one)
                     Mesh targetMesh = target.gameObject.GetComponent<MeshFilter>() == null ? null : target.gameObject.GetComponent<MeshFilter>().sharedMesh;
-                    Gizmos.color = new Color(1.0f, 0.0f, 0.0f, 0.7f);
                     Gizmos.DrawWireMesh(targetMesh, target.position, target.rotation, target.localScale);
-                    Gizmos.color = Color.white;
 
-                    // Draw arrow
-                    Handles.DrawDottedLine(lineCenter, (lineCenter + Quaternion.Euler(0.0f, -45.0f, 0.0f) * linePerpendicular), 2.0f);
-                    Handles.DrawDottedLine(lineCenter, (lineCenter - Quaternion.Euler(0.0f, 45.0f, 0.0f) * linePerpendicular), 2.0f);
+                    int repeat = 5;
+                    float distance = Vector3.Distance(triggerCenter, target.position) + 2 * repeat;
+
+                    // Draw Arrows
+                    for(int d = 1; d < Mathf.Round(distance / repeat); d++)
+                    {
+                        Vector3 point = triggerCenter + (target.position - triggerCenter) * (d / Mathf.Round(distance / repeat));
+                        Gizmos.DrawLine(point, point + Quaternion.Euler(perpendicularUp * -45.0f) * linePerpendicular);
+                        Gizmos.DrawLine(point, point - Quaternion.Euler(perpendicularUp * 45.0f) * linePerpendicular);
+                    }
 
                     // Draw event labels
                     Handles.Label(lineCenter, typeLabel, EditorStyles.whiteMiniLabel);

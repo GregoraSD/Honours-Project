@@ -1,9 +1,138 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System.Collections.Generic;
 
 [CustomEditor(typeof(TextManipulator))]
 public class TextManipulatorEditor : Editor
 {
+    public GUISkin skin;
+
+    private Vector2 pan = Vector2.zero;
+    private Vector2 dragStart = Vector2.zero;
+
+    private TextManipulator textManipulator;
+    private ManipulatorFunction draggedFunction;
+    private Event currentEvent;
+    private Rect background;
+
+    public override void OnInspectorGUI()
+    {
+        // Set the GUI skin
+        GUI.skin = skin;
+        textManipulator = (TextManipulator)target;
+        EditorGUILayout.Space();
+
+        background = GUILayoutUtility.GetRect(0.0f, 250.0f, GUILayout.ExpandWidth(true));
+        GUI.Box(background, "");
+
+        // Begin the background group
+        GUI.BeginGroup(background);
+
+        for (int i = 0; i < textManipulator.functions.Count; i++)
+        {
+            Rect functionRect = textManipulator.functions[i].area;
+            functionRect.position += pan;
+            GUI.Box(functionRect, "Function");
+        }
+
+        // End the background group
+        GUI.EndGroup();
+        EditorGUILayout.Space();
+
+        currentEvent = Event.current;
+
+        if (background.Contains(currentEvent.mousePosition))
+        {
+            switch(currentEvent.type)
+            {
+                // Zooming maybe?
+                case EventType.ScrollWheel:
+                    break;
+
+                case EventType.MouseDown:
+
+                    // Check for a draggable function
+                    if(draggedFunction == null && currentEvent.button == 0)
+                    {
+                        draggedFunction = FunctionThatContainsMouse();
+                    }
+
+                    dragStart = currentEvent.mousePosition;
+
+                    break;
+
+                case EventType.MouseUp:
+                    draggedFunction = null;
+                    break;
+
+                case EventType.MouseDrag:
+
+                    // Holding a function -> Drag it
+                    if (draggedFunction != null && currentEvent.button == 0)
+                    {
+                        draggedFunction.area.position += (currentEvent.mousePosition - dragStart);
+                        dragStart = currentEvent.mousePosition;
+                        currentEvent.Use();
+                    }
+
+                    // Not holding a function -> Pan
+                    else if(currentEvent.button == 2)
+                    {
+                        pan += (currentEvent.mousePosition - dragStart);
+                        dragStart = currentEvent.mousePosition;
+                        currentEvent.Use();
+                    }
+
+                    break;
+
+                case EventType.ContextClick:
+
+                    // Not holding a function
+                    if(draggedFunction == null)
+                    {
+                        GenericMenu menu = new GenericMenu();
+                        menu.AddItem(new GUIContent("Create New Function"), false, CreateNewFunction);
+                        menu.AddItem(new GUIContent("Clear Area"), false, Clear);
+                        menu.ShowAsContext();
+                    }
+
+                    break;
+            }
+        }
+    }
+
+    private void CreateNewFunction()
+    {
+        ManipulatorFunction newFunction = new ManipulatorFunction();
+        Vector2 size = new Vector2(140.0f, 50.0f);
+        newFunction.area = new Rect(new Vector2(-background.x + currentEvent.mousePosition.x - size.x / 2 - pan.x, -background.y + currentEvent.mousePosition.y - size.y / 2 - pan.y), size);
+        textManipulator.functions.Add(newFunction);
+    }
+
+    private void Clear()
+    {
+        textManipulator.functions.Clear();
+    }
+
+    private ManipulatorFunction FunctionThatContainsMouse()
+    {
+        for (int i = textManipulator.functions.Count - 1; i >= 0; i--)
+        {
+            if (textManipulator.functions[i].area.Contains(-background.position + currentEvent.mousePosition - pan))
+            {
+                return textManipulator.functions[i];
+            }
+        }
+
+        return null;
+    }
+}
+
+/*
+[CustomEditor(typeof(TextManipulator))]
+public class TextManipulatorEditor : Editor
+{
+
     public GUISkin skin;
 
     // Store inspection reference
@@ -19,6 +148,7 @@ public class TextManipulatorEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        Debug.Log("Pan: " + pan);
         GUI.skin = skin;
 
         EditorGUILayout.Space();
@@ -78,12 +208,14 @@ public class TextManipulatorEditor : Editor
                     functionArea.y = area.y + area.height - functionArea.height - pan.y;
                 }
                 */
+                /*
                 #endregion
             }
 
             if(functionArea.width != 0.0f && functionArea.height != 0.0f)
             {
                 GUI.Box(functionArea, "Test");
+                Debug.Log("Function Area: " + functionArea);
             }
         }
 
@@ -178,6 +310,7 @@ public class TextManipulatorEditor : Editor
                 break;
         }
         */
+        /*
     }
 
     private void CreateNewFunction()
@@ -205,3 +338,4 @@ public class TextManipulatorEditor : Editor
         return null;
     }
 }
+*/

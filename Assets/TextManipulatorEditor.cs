@@ -4,9 +4,11 @@ using UnityEditor;
 [CustomEditor(typeof(TextManipulator))]
 public class TextManipulatorEditor : Editor
 {
+    public GUISkin skin;
+
     // Store inspection reference
-    TextManipulator textManipulator;
-    Event currentEvent;
+    private TextManipulator textManipulator;
+    private Event currentEvent;
 
     private Vector2 pan = Vector2.zero;
     private Vector2 dragStart = Vector2.zero;
@@ -17,10 +19,12 @@ public class TextManipulatorEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        GUI.skin = skin;
+
         EditorGUILayout.Space();
         // Get current event and draw the manipulator area
         currentEvent = Event.current;
-        Rect area = GUILayoutUtility.GetRect(0.0f, 200.0f, GUILayout.ExpandWidth(true));
+        Rect area = GUILayoutUtility.GetRect(0.0f, 250.0f, GUILayout.ExpandWidth(true));
         GUI.Box(area, "");
         EditorGUILayout.Space();
 

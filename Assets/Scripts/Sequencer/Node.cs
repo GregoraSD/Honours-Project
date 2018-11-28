@@ -1,13 +1,16 @@
-﻿namespace Sequencer
-{
-    public class Node
-    {
-        // Inputs
-        public int[] intInputs = null;
-        public float[] floatInputs = null;
+﻿using UnityEngine;
 
-        // Outputs
-        public int[] intOutputs = null;
-        public float[] floatOutputs = null;
+namespace Sequencer
+{
+    [System.Serializable]
+    public class Node : MonoBehaviour
+    {
+        public string name = "";
+        public string method = "";
+        public Input input = new Input();
+        public Output output = new Output();
+
+        public delegate void Function(Input i, Output o);
+        public Function function;
     }
 }

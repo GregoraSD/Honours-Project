@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using System.Reflection;
 
 [CustomEditor(typeof(TextManipulator))]
 public class TextManipulatorEditor : Editor
@@ -26,7 +27,7 @@ public class TextManipulatorEditor : Editor
         GUI.Box(background, "");
 
         // Begin the background group
-        GUI.BeginGroup(background);
+        GUI.BeginGroup(new Rect(background.x + 1, background.y + 1, background.width - 2, background.height - 2));
 
         for (int i = 0; i < textManipulator.functions.Count; i++)
         {
@@ -103,10 +104,8 @@ public class TextManipulatorEditor : Editor
 
     private void CreateNewFunction()
     {
-        ManipulatorFunction newFunction = new ManipulatorFunction();
-        Vector2 size = new Vector2(140.0f, 50.0f);
-        newFunction.area = new Rect(new Vector2(-background.x + currentEvent.mousePosition.x - size.x / 2 - pan.x, -background.y + currentEvent.mousePosition.y - size.y / 2 - pan.y), size);
-        textManipulator.functions.Add(newFunction);
+        //Vector2 size = new Vector2(140.0f, 50.0f);
+        //newFunction.area = new Rect(new Vector2(-background.x + currentEvent.mousePosition.x - size.x / 2 - pan.x, -background.y + currentEvent.mousePosition.y - size.y / 2 - pan.y), size);
     }
 
     private void Clear()

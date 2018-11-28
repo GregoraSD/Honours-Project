@@ -11,8 +11,6 @@ namespace Sequencer
             node.input.ints = new int[2];
             node.output.ints = new int[1];
             node.name = "Add";
-            node.method = "AddFunction";
-            node.function = AddFunction;
             sequencer.nodes.Add(node);
         }
 
@@ -22,7 +20,6 @@ namespace Sequencer
             node.input.floats = new float[1];
             node.output.floats = new float[1];
             node.name = "Constant";
-            node.function = ConstantFunction;
             sequencer.nodes.Add(node);
         }
 
@@ -43,7 +40,6 @@ namespace Sequencer
             node.input.ints = new int[2];
             node.output.ints = new int[1];
             node.name = "Multiply";
-            node.function = MultiplyFunction;
             sequencer.nodes.Add(node);
         }
 

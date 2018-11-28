@@ -1,7 +1,7 @@
 ﻿namespace Sequencer
 {
     [System.Serializable]
-    public class Input : UnityEngine.Object
+    public class Input
     {
         public int[] ints;
         public float[] floats;

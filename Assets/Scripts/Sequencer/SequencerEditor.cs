@@ -1,5 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using System.IO;
+using UnityEngine;
 using UnityEditor;
+using System.Linq;
+using System.Reflection;
 
 namespace Sequencer
 {
@@ -11,6 +15,79 @@ namespace Sequencer
         private Rect sequencerArea;
         private Event currentEvent;
         private Sequencer sequencer;
+
+        private static bool previousCompileState;
+        private static MonoScript file;
+        private static string path;
+        private Node.BaseNode draggedNode;
+
+        [MenuItem("Assets/Create/Sequencer Node")]
+        public static void CreateNodeTemplate()
+        {
+            UnityEngine.Object obj = Selection.activeObject;
+            path = obj == null ? "Assets" : AssetDatabase.GetAssetPath(obj.GetInstanceID());
+
+            if(!Directory.Exists(path))
+            {
+                for(int i = path.Length - 1; i >= 0; i--)
+                {
+                    if(path[i] == '/')
+                    {
+                        path = path.Remove(i);
+                        break;
+                    }
+                }
+            }
+
+            path += "/";
+            file = new MonoScript();
+            ProjectWindowUtil.CreateAsset(file, path + "New Node.cs");
+            EditorApplication.update += WaitForAssetRefresh;
+        }
+
+        private static void WaitForAssetRefresh()
+        {
+            // Wait for a compiler state change
+            if(EditorApplication.isCompiling != previousCompileState)
+            {
+                // Not Compiling -> Compiling
+                if(EditorApplication.isCompiling)
+                {
+                    Debug.Log(path + file.name + ".cs");
+                    File.WriteAllText(path + file.name + ".cs", String.Empty);
+
+                    using (StreamWriter writer = new StreamWriter(path + file.name + ".cs"))
+                    {
+                        writer.WriteLine("namespace Sequencer");
+                        writer.WriteLine("{");
+                        writer.WriteLine("\tnamespace Node");
+                        writer.WriteLine("\t{");
+                        writer.WriteLine("\t\tpublic class " + file.name + " : BaseNode");
+                        writer.WriteLine("\t\t{");
+                        writer.WriteLine("\t\t\t// Initialize Parameters");
+                        writer.WriteLine("\t\t\tpublic " + file.name + "()");
+                        writer.WriteLine("\t\t\t{");
+                        writer.WriteLine("\t\t\t\tid = " + '"' + file.name + '"' + ";");
+                        writer.WriteLine("\t\t\t}");
+                        writer.WriteLine("\t\t\t");
+                        writer.WriteLine("\t\t\t// Define Invoke Method");
+                        writer.WriteLine("\t\t\tpublic override void Invoke(Sequencer invoker)");
+                        writer.WriteLine("\t\t\t{");
+                        writer.WriteLine("\t\t\t\t");
+                        writer.WriteLine("\t\t\t}");
+                        writer.WriteLine("\t\t}");
+                        writer.WriteLine("\t}");
+                        writer.WriteLine("}");
+                    }
+
+                    AssetDatabase.Refresh();
+                    EditorApplication.update -= WaitForAssetRefresh;
+                }
+            }
+
+            // Set previous compile state
+            previousCompileState = EditorApplication.isCompiling;
+        }
 
         public override void OnInspectorGUI()
         {
@@ -24,7 +101,8 @@ namespace Sequencer
 
             for (int i = 0; i < sequencer.nodes.Count; i++)
             {
-                GUI.Box(new Rect(pan.x, pan.y, 100.0f, 30.0f), sequencer.nodes[i].name);
+                sequencer.nodes[i].DrawGUI(pan);
+                //GUI.Box(new Rect(pan.x, pan.y, 100.0f, 30.0f), sequencer.nodes[i].id);
             }
 
             GUI.EndGroup();
@@ -42,11 +120,23 @@ namespace Sequencer
                 switch (currentEvent.type)
                 {
                     case EventType.MouseDown:
-                        if (currentEvent.button == 2)
-                            dragStart = currentEvent.mousePosition;
+                        if(draggedNode == null && currentEvent.button == 0)
+                        {
+                            draggedNode = NodeThatContainsMouse();
+                        }
+
+                        dragStart = currentEvent.mousePosition;
                         break;
 
                     case EventType.MouseDrag:
+                        if(draggedNode != null && currentEvent.button == 0)
+                        {
+                            draggedNode.position.position += (currentEvent.mousePosition - dragStart);
+                            dragStart = currentEvent.mousePosition;
+                            currentEvent.Use();
+                        }
+                               
+
                         if (currentEvent.button == 2)
                         {
                             pan += (currentEvent.mousePosition - dragStart);
@@ -56,37 +146,50 @@ namespace Sequencer
                         break;
 
                     case EventType.ContextClick:
+
+                        // Get list of node types
+                        Type[] nodeTypes = Assembly.GetAssembly(typeof(Node.BaseNode)).GetTypes().Where(t => t.IsSubclassOf(typeof(Node.BaseNode))).ToArray();
                         GenericMenu menu = new GenericMenu();
-                        menu.AddItem(new GUIContent("Add Node"), false, CreateAddNode);
-                        menu.AddItem(new GUIContent("Multiply Node"), false, CreateMultiplyNode);
-                        menu.AddItem(new GUIContent("Constant Node"), false, CreateConstantNode);
-                        menu.AddItem(new GUIContent("Helper/Empty Sequencer"), false, EmptySequencer);
+
+                        // Create node menu items
+                        for (int i = 0; i < nodeTypes.Length; i++)
+                        {
+                            Node.BaseNode node = (Node.BaseNode)CreateInstance(nodeTypes[i]);
+                            node.position.position = new Vector2(-sequencerArea.x + currentEvent.mousePosition.x - pan.x, -sequencerArea.y + currentEvent.mousePosition.y - pan.y);
+                            menu.AddItem(new GUIContent(node.filter + node.id), false, CreateNode, node);
+                        }
+
+                        menu.AddItem(new GUIContent("Clear"), false, sequencer.nodes.Clear);
+
                         menu.ShowAsContext();
                         currentEvent.Use();
                         EditorUtility.SetDirty(sequencer);
+                        break;
+
+                    case EventType.MouseUp:
+                        draggedNode = null;
                         break;
                 }
             }
         }
 
-        private void EmptySequencer()
+        private void CreateNode(System.Object node)
         {
-            sequencer.nodes.Clear();
+            sequencer.nodes.Add((Node.BaseNode)node);
         }
 
-        private void CreateAddNode()
+        private Node.BaseNode NodeThatContainsMouse()
         {
-            SequencerFunctions.AddNode(sequencer);
-        }
+            for(int i = sequencer.nodes.Count - 1; i >= 0; i--)
+            {
+                if(sequencer.nodes[i].position.Contains(-sequencerArea.position + currentEvent.mousePosition - pan))
+                {
+                    Debug.Log("Hovering");
+                    return sequencer.nodes[i];
+                }
+            }
 
-        private void CreateMultiplyNode()
-        {
-            SequencerFunctions.MultiplyNode(sequencer);
-        }
-
-        private void CreateConstantNode()
-        {
-            SequencerFunctions.ConstantNode(sequencer);
+            return null;
         }
 
     }//B00l43nV01DWUZH3R3

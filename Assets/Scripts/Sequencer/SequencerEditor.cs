@@ -100,7 +100,7 @@ namespace Sequencer
             sequencerArea = GUILayoutUtility.GetRect(0.0f, 300.0f, GUILayout.ExpandWidth(true));
             GUI.Box(sequencerArea, "");
             GUI.BeginGroup(new Rect(sequencerArea.x + 1, sequencerArea.y + 1, sequencerArea.width - 2, sequencerArea.height - 2));
-            GUI.DrawTextureWithTexCoords(new Rect(-10000.0f + pan.x * 0.5f, -10000.0f + pan.y * 0.5f, sequencerArea.width - 2 + 20000.0f, sequencerArea.height - 2 + 20000.0f), GUI.skin.customStyles[0].normal.background, new Rect(0.0f, 0.0f, (sequencerArea.width + 20000.0f) / GUI.skin.customStyles[0].normal.background.width, (sequencerArea.height + 20000.0f) / GUI.skin.customStyles[0].normal.background.height));
+            GUI.DrawTextureWithTexCoords(new Rect(-10000.0f + pan.x, -10000.0f + pan.y, sequencerArea.width - 2 + 20000.0f, sequencerArea.height - 2 + 20000.0f), GUI.skin.customStyles[0].normal.background, new Rect(0.0f, 0.0f, (sequencerArea.width + 20000.0f) / GUI.skin.customStyles[0].normal.background.width, (sequencerArea.height + 20000.0f) / GUI.skin.customStyles[0].normal.background.height));
 
             for (int i = 0; i < sequencer.nodes.Count; i++)
             {
@@ -200,6 +200,17 @@ namespace Sequencer
                     }
 
                     break;
+            }
+
+            for (int i = 0; i < sequencer.nodes.Count; i++)
+            {
+                for (int p = 0; p < sequencer.nodes.Count; p++)
+                {
+                    if (i != p)
+                    {
+                        Handles.DrawLine(new Vector3(sequencerArea.x, sequencerArea.y, 0.0f), new Vector3(sequencerArea.x + sequencerArea.width, sequencerArea.y + sequencerArea.height, 0.0f));
+                    }
+                }
             }
 
             Repaint();

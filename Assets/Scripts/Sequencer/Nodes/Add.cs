@@ -12,8 +12,8 @@ namespace Sequencer
                 id = "Add";
                 filter = "Math/";
 
-                intInputs.Add(new Parameter<int>() { });
-                intInputs.Add(new Parameter<int>() { });
+                intInputs.Add(new Parameter<int>());
+                intInputs.Add(new Parameter<int>());
                 intOutputs.Add(new Parameter<int>());
 			}
 			
@@ -21,14 +21,14 @@ namespace Sequencer
 			public override void Invoke(Sequencer invoker)
 			{
                 intOutputs[0].value = intInputs[0].value + intInputs[1].value;
-                UnityEngine.Debug.Log(intInputs[0].value + " + " + intInputs[1].value + " = " + intOutputs[0].value);
             }
 
             public override void DrawGUI(Vector2 pan)
             {
-                Rect box = new Rect(position.position + pan, position.size);
-                GUI.Box(box, id);
+                Rect box = new Rect(rect.position + pan, rect.size);
+                GUI.Box(box, "");
                 GUI.BeginGroup(new Rect(box));
+                GUI.Label(new Rect(0.0f, 0.0f, box.width, box.height), id, UnityEditor.EditorStyles.centeredGreyMiniLabel);
                 GUI.EndGroup();
             }
         }

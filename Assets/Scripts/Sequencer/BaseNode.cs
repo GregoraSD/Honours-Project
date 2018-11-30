@@ -9,7 +9,7 @@ namespace Sequencer
         {
             public string id;
             public string filter;
-            public Rect position = new Rect(0.0f, 0.0f, 150.0f, 50.0f);
+            public Rect rect = new Rect(0.0f, 0.0f, 150.0f, 50.0f);
 
             public List<Parameter<int>> intInputs = new List<Parameter<int>>();
             public List<Parameter<float>> floatInputs = new List<Parameter<float>>();

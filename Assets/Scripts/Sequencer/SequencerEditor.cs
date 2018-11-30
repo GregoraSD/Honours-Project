@@ -19,7 +19,10 @@ namespace Sequencer
         private static bool previousCompileState;
         private static MonoScript file;
         private static string path;
-        private Node.BaseNode draggedNode;
+        private Node.BaseNode targetNode;
+
+        private enum HoverType { None, Background, Function, Parameter };
+        private HoverType currentHover;
 
         [MenuItem("Assets/Create/Sequencer Node")]
         public static void CreateNodeTemplate()
@@ -102,14 +105,103 @@ namespace Sequencer
             for (int i = 0; i < sequencer.nodes.Count; i++)
             {
                 sequencer.nodes[i].DrawGUI(pan);
-                //GUI.Box(new Rect(pan.x, pan.y, 100.0f, 30.0f), sequencer.nodes[i].id);
             }
 
             GUI.EndGroup();
             EditorGUILayout.Space();
 
             currentEvent = Event.current;
-            HandleInput();
+            currentHover = GetCurrentHoverType();
+
+            switch(currentHover)
+            {
+                case HoverType.Background:
+
+                    if(currentEvent.type == EventType.MouseDown)
+                    {
+                        dragStart = currentEvent.mousePosition;
+                    }
+
+                    else if(currentEvent.type == EventType.MouseDrag)
+                    {
+                        if (currentEvent.button == 2)
+                        {
+                            pan += (currentEvent.mousePosition - dragStart);
+                            dragStart = currentEvent.mousePosition;
+                            currentEvent.Use();
+                        }
+
+                        if (targetNode != null && currentEvent.button == 0)
+                        {
+                            targetNode.rect.position += (currentEvent.mousePosition - dragStart);
+                            dragStart = currentEvent.mousePosition;
+                            currentEvent.Use();
+                        }
+                    }
+
+                    else if (currentEvent.type == EventType.ContextClick)
+                    {
+                        Type[] nodeTypes = Assembly.GetAssembly(typeof(Node.BaseNode)).GetTypes().Where(t => t.IsSubclassOf(typeof(Node.BaseNode))).ToArray();
+                        GenericMenu menu = new GenericMenu();
+
+                        for (int i = 0; i < nodeTypes.Length; i++)
+                        {
+                            Node.BaseNode node = (Node.BaseNode)CreateInstance(nodeTypes[i]);
+                            node.rect.position = new Vector2(-sequencerArea.x + currentEvent.mousePosition.x - pan.x, -sequencerArea.y + currentEvent.mousePosition.y - pan.y);
+                            menu.AddItem(new GUIContent(node.filter + node.id), false, CreateNode, node);
+                        }
+
+                        menu.AddItem(new GUIContent("Clear"), false, sequencer.nodes.Clear);
+
+                        menu.ShowAsContext();
+                        currentEvent.Use();
+                        EditorUtility.SetDirty(sequencer);
+                    }
+
+                    else if (currentEvent.type == EventType.MouseUp)
+                    {
+                        targetNode = null;
+                    }
+
+                    break;
+
+                case HoverType.Function:
+
+                    if(currentEvent.type == EventType.MouseDown)
+                    {
+                        if(targetNode == null && currentEvent.button == 0)
+                        {
+                            targetNode = NodeThatContainsMouse();
+                        }
+
+                        dragStart = currentEvent.mousePosition;
+                    }
+
+                    else if(currentEvent.type == EventType.MouseDrag)
+                    {
+                        if(targetNode != null && currentEvent.button == 0)
+                        {
+                            targetNode.rect.position += (currentEvent.mousePosition - dragStart);
+                            dragStart = currentEvent.mousePosition;
+                            currentEvent.Use();
+                        }
+
+                        if(currentEvent.button == 2)
+                        {
+                            pan += (currentEvent.mousePosition - dragStart);
+                            dragStart = currentEvent.mousePosition;
+                            currentEvent.Use();
+                        }
+                    }
+
+                    else if (currentEvent.type == EventType.MouseUp)
+                    {
+                        targetNode = null;
+                    }
+
+                    break;
+            }
+
             Repaint();
         }
 
@@ -120,22 +212,21 @@ namespace Sequencer
                 switch (currentEvent.type)
                 {
                     case EventType.MouseDown:
-                        if(draggedNode == null && currentEvent.button == 0)
+                        if(targetNode == null && currentEvent.button == 0)
                         {
-                            draggedNode = NodeThatContainsMouse();
+                            targetNode = NodeThatContainsMouse();
                         }
 
                         dragStart = currentEvent.mousePosition;
                         break;
 
                     case EventType.MouseDrag:
-                        if(draggedNode != null && currentEvent.button == 0)
+                        if(targetNode != null && currentEvent.button == 0)
                         {
-                            draggedNode.position.position += (currentEvent.mousePosition - dragStart);
+                            targetNode.rect.position += (currentEvent.mousePosition - dragStart);
                             dragStart = currentEvent.mousePosition;
                             currentEvent.Use();
-                        }
-                               
+                        }   
 
                         if (currentEvent.button == 2)
                         {
@@ -155,7 +246,7 @@ namespace Sequencer
                         for (int i = 0; i < nodeTypes.Length; i++)
                         {
                             Node.BaseNode node = (Node.BaseNode)CreateInstance(nodeTypes[i]);
-                            node.position.position = new Vector2(-sequencerArea.x + currentEvent.mousePosition.x - pan.x, -sequencerArea.y + currentEvent.mousePosition.y - pan.y);
+                            node.rect.position = new Vector2(-sequencerArea.x + currentEvent.mousePosition.x - pan.x, -sequencerArea.y + currentEvent.mousePosition.y - pan.y);
                             menu.AddItem(new GUIContent(node.filter + node.id), false, CreateNode, node);
                         }
 
@@ -167,7 +258,7 @@ namespace Sequencer
                         break;
 
                     case EventType.MouseUp:
-                        draggedNode = null;
+                        targetNode = null;
                         break;
                 }
             }
@@ -178,18 +269,40 @@ namespace Sequencer
             sequencer.nodes.Add((Node.BaseNode)node);
         }
 
+        private void RemoveNode(System.Object node)
+        {
+            sequencer.nodes.Remove((Node.BaseNode)node);
+        }
+
         private Node.BaseNode NodeThatContainsMouse()
         {
             for(int i = sequencer.nodes.Count - 1; i >= 0; i--)
             {
-                if(sequencer.nodes[i].position.Contains(-sequencerArea.position + currentEvent.mousePosition - pan))
+                if(sequencer.nodes[i].rect.Contains(-sequencerArea.position + currentEvent.mousePosition - pan))
                 {
-                    Debug.Log("Hovering");
                     return sequencer.nodes[i];
                 }
             }
 
             return null;
+        }
+
+        private HoverType GetCurrentHoverType()
+        {
+            if(sequencerArea.Contains(currentEvent.mousePosition))
+            {
+                for (int i = sequencer.nodes.Count - 1; i >= 0; i--)
+                {
+                    if (sequencer.nodes[i].rect.Contains(-sequencerArea.position + currentEvent.mousePosition - pan))
+                    {
+                        return HoverType.Function;
+                    }
+                }
+
+                return HoverType.Background;
+            }
+
+            return HoverType.None;
         }
 
     }//B00l43nV01DWUZH3R3

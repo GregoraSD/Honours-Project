@@ -19,8 +19,28 @@ namespace Sequencer
             public List<Parameter<float>> floatOutputs = new List<Parameter<float>>();
             public List<Parameter<string>> stringOutputs = new List<Parameter<string>>();
 
+            public BaseNode()
+            {
+                Init();
+            }
+
+            public virtual void Init()
+            {
+                id = "New Node";
+                filter = "Undefined/";
+            }
+
             public abstract void Invoke(Sequencer invoker);
-            public abstract void DrawGUI(Vector2 pan);
+
+            public virtual void DrawGUI(Vector2 pan)
+            {
+                Rect box = new Rect(rect.position + pan, rect.size);
+                GUI.Box(box, "");
+
+                GUI.BeginGroup(box);
+                GUI.Label(new Rect(0.0f, 0.0f, box.width, box.height), id, UnityEditor.EditorStyles.centeredGreyMiniLabel);
+                GUI.EndGroup();
+            }
         }
     }
 }

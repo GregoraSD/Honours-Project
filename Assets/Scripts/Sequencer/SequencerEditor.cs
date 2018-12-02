@@ -16,81 +16,9 @@ namespace Sequencer
         private Event currentEvent;
         private Sequencer sequencer;
 
-        private static bool previousCompileState;
-        private static MonoScript file;
-        private static string path;
         private Node.BaseNode targetNode;
-
         private enum HoverType { None, Background, Function, Parameter };
         private HoverType currentHover;
-
-        [MenuItem("Assets/Create/Sequencer Node")]
-        public static void CreateNodeTemplate()
-        {
-            UnityEngine.Object obj = Selection.activeObject;
-            path = obj == null ? "Assets" : AssetDatabase.GetAssetPath(obj.GetInstanceID());
-
-            if(!Directory.Exists(path))
-            {
-                for(int i = path.Length - 1; i >= 0; i--)
-                {
-                    if(path[i] == '/')
-                    {
-                        path = path.Remove(i);
-                        break;
-                    }
-                }
-            }
-
-            path += "/";
-            file = new MonoScript();
-            ProjectWindowUtil.CreateAsset(file, path + "New Node.cs");
-            EditorApplication.update += WaitForAssetRefresh;
-        }
-
-        private static void WaitForAssetRefresh()
-        {
-            // Wait for a compiler state change
-            if(EditorApplication.isCompiling != previousCompileState)
-            {
-                // Not Compiling -> Compiling
-                if(EditorApplication.isCompiling)
-                {
-                    Debug.Log(path + file.name + ".cs");
-                    File.WriteAllText(path + file.name + ".cs", String.Empty);
-
-                    using (StreamWriter writer = new StreamWriter(path + file.name + ".cs"))
-                    {
-                        writer.WriteLine("namespace Sequencer");
-                        writer.WriteLine("{");
-                        writer.WriteLine("\tnamespace Node");
-                        writer.WriteLine("\t{");
-                        writer.WriteLine("\t\tpublic class " + file.name + " : BaseNode");
-                        writer.WriteLine("\t\t{");
-                        writer.WriteLine("\t\t\t// Initialize Parameters");
-                        writer.WriteLine("\t\t\tpublic " + file.name + "()");
-                        writer.WriteLine("\t\t\t{");
-                        writer.WriteLine("\t\t\t\tid = " + '"' + file.name + '"' + ";");
-                        writer.WriteLine("\t\t\t}");
-                        writer.WriteLine("\t\t\t");
-                        writer.WriteLine("\t\t\t// Define Invoke Method");
-                        writer.WriteLine("\t\t\tpublic override void Invoke(Sequencer invoker)");
-                        writer.WriteLine("\t\t\t{");
-                        writer.WriteLine("\t\t\t\t");
-                        writer.WriteLine("\t\t\t}");
-                        writer.WriteLine("\t\t}");
-                        writer.WriteLine("\t}");
-                        writer.WriteLine("}");
-                    }
-
-                    AssetDatabase.Refresh();
-                    EditorApplication.update -= WaitForAssetRefresh;
-                }
-            }
-
-            // Set previous compile state
-            previousCompileState = EditorApplication.isCompiling;
-        }
 
         public override void OnInspectorGUI()
         {
@@ -200,17 +128,6 @@ namespace Sequencer
                     }
 
                     break;
-            }
-
-            for (int i = 0; i < sequencer.nodes.Count; i++)
-            {
-                for (int p = 0; p < sequencer.nodes.Count; p++)
-                {
-                    if (i != p)
-                    {
-                        Handles.DrawLine(new Vector3(sequencerArea.x, sequencerArea.y, 0.0f), new Vector3(sequencerArea.x + sequencerArea.width, sequencerArea.y + sequencerArea.height, 0.0f));
-                    }
-                }
             }
 
             Repaint();

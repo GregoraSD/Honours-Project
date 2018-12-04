@@ -22104,7 +22104,7 @@ GameObject:
   - component: {fileID: 680163016}
   - component: {fileID: 680163017}
   m_Layer: 0
-  m_Name: TextTrigger1 (1)
+  m_Name: TextTrigger 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41885,7 +41885,7 @@ GameObject:
   - component: {fileID: 1365936311}
   - component: {fileID: 1365936316}
   m_Layer: 0
-  m_Name: Text1
+  m_Name: Quote 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66187,7 +66187,7 @@ GameObject:
   - component: {fileID: 1819291408}
   - component: {fileID: 1819291413}
   m_Layer: 0
-  m_Name: Text1 (7)
+  m_Name: Quote 7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66221,8 +66221,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 16777215
-  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

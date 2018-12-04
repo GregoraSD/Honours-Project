@@ -126,7 +126,7 @@ public class Trigger : MonoBehaviour
 
                     // Draw the mesh of the target (if it has one)
                     Mesh targetMesh = target.gameObject.GetComponent<MeshFilter>() == null ? null : target.gameObject.GetComponent<MeshFilter>().sharedMesh;
-                    Gizmos.DrawWireMesh(targetMesh, target.position, target.rotation, target.localScale);
+                    //Gizmos.DrawWireMesh(targetMesh, target.position, target.rotation, target.localScale);
 
                     int repeat = 5;
                     float distance = Vector3.Distance(triggerCenter, target.position) + 2 * repeat;

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 using UnityEditor;
+using System.Collections;
 
 public class Trigger : MonoBehaviour
 {

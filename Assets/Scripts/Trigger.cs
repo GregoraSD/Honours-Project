@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
-using UnityEditor;
-using System.Collections;
 
 public class Trigger : MonoBehaviour
 {
@@ -40,6 +38,7 @@ public class Trigger : MonoBehaviour
         triggerStayResponse.Invoke();
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         // Get current rotation from the object
@@ -140,11 +139,12 @@ public class Trigger : MonoBehaviour
                     }
 
                     // Draw event labels
-                    Handles.Label(lineCenter, typeLabel, EditorStyles.whiteMiniLabel);
-                    Handles.Label(target.position, target.name + " (" + componentName + "):", EditorStyles.whiteBoldLabel);
-                    Handles.Label(target.position, "\n   -" + methodName, EditorStyles.whiteLabel);
+                    UnityEditor.Handles.Label(lineCenter, typeLabel, UnityEditor.EditorStyles.whiteMiniLabel);
+                    UnityEditor.Handles.Label(target.position, target.name + " (" + componentName + "):", UnityEditor.EditorStyles.whiteBoldLabel);
+                    UnityEditor.Handles.Label(target.position, "\n   -" + methodName, UnityEditor.EditorStyles.whiteLabel);
                 }
             }
         }
     }
+#endif
 }

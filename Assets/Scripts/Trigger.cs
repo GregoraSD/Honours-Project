@@ -11,6 +11,8 @@ public class Trigger : MonoBehaviour
     public UnityEvent triggerExitResponse;
     public UnityEvent triggerStayResponse;
 
+    public Color triggerColor = Color.green;
+
     private void Start()
     {
         // Create the in-game collider and set its parameters
@@ -63,7 +65,7 @@ public class Trigger : MonoBehaviour
         }
 
         // Set Color
-        Gizmos.color = Color.green;
+        Gizmos.color = triggerColor;
 
         // Draw lines in cube shape
         Gizmos.DrawLine(transform.position + points[0], transform.position + points[1]);

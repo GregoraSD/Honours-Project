@@ -16,19 +16,31 @@ public class TeleportAbility : MonoBehaviour
     [SerializeField]
     private float waitTime = 0.0f;
 
+    [SerializeField]
+    private float cooldown = 5.0f;
+
+    private float cooldownTimer = 0.0f;
     private bool inPast = false;
     private bool inTeleport = false;
 
     private void Start()
     {
+        cooldownTimer = cooldown;
         flash.CrossFadeAlpha(0.0f, 0.0f, true);    
     }
 
     private void Update()
     {
+        cooldownTimer += Time.deltaTime;
+
         if(Input.GetButtonDown("Jump"))
         {
-            StartCoroutine(Teleport());
+            if(cooldownTimer > cooldown)
+            {
+                cooldownTimer = 0.0f;
+                StartCoroutine(Teleport());
+            }
+            
         }
     }
 

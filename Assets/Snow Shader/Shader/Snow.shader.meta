@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 5fb8a524e614e0c459392d12bb4a6652
+timeCreated: 1511812285
+licenseType: Store
+ShaderImporter:
+  defaultTextures:
+  - _Snownormals: {fileID: 2800000, guid: fe1100c7d726e6944b3041e82e2a5b63, type: 3}
+  - _Snowdetailnormals: {fileID: 2800000, guid: 92ff32764464c514891d7526209a3a9f,
+      type: 3}
+  - _Snowtexture: {fileID: 2800000, guid: a165ce609039f0b4990b9430a86e4ff1, type: 3}
+  - _SnowSpecular: {fileID: 2800000, guid: 9d0ee18006f81c44aa47591454cdb273, type: 3}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

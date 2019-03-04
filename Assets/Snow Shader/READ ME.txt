@@ -1,0 +1,7 @@
+First steps to apply the snow :
+
+- create a new material
+- In the shader slot on the top, go to "Snow\SnowShader"
+- Apply your base textures into the new material
+- Make sure the snow textures are also applied
+- Play with the control values or keep the default preset

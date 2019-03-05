@@ -130,9 +130,9 @@ Material:
     - _SrcBlend: 1
     - _UVSec: 0
     - _VerticalaxisImportance: 0.448
-    - _XaxisImportance: 0.66
+    - _XaxisImportance: -1
     - _ZWrite: 1
-    - _ZaxisImportance: -0.1
+    - _ZaxisImportance: -0.03
     - __dirty: 1
     m_Colors:
     - _Albedocolormodifier: {r: 1, g: 1, b: 1, a: 0}

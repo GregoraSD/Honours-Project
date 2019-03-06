@@ -100,7 +100,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
-    - _Coveragecontrol: 1.24
+    - _Coveragecontrol: -0.1
     - _Cutoff: 0.5
     - _Desactivategroundsnow: 1
     - _DetailNormalMapScale: 1
@@ -115,7 +115,7 @@ Material:
     - _Metallic: 0
     - _Metalness: 0
     - _Mode: 0
-    - _NormalsImportance: 0.308
+    - _NormalsImportance: 0.18
     - _Normalsintensity: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
@@ -123,7 +123,7 @@ Material:
     - _Sharpnesscontrol: 0.58
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
-    - _Snownormalsintensity: 1
+    - _Snownormalsintensity: 0.603
     - _Snowtiling: 1
     - _SpecularHighlights: 1
     - _Speculartiling: 1

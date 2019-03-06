@@ -100,7 +100,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
-    - _Coveragecontrol: 0.09
+    - _Coveragecontrol: 0.01
     - _Cutoff: 0.5
     - _Desactivategroundsnow: 1
     - _DetailNormalMapScale: 1

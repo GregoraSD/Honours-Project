@@ -116,7 +116,7 @@ Material:
     - _Metalness: 0
     - _Mode: 0
     - _NormalsImportance: 0.439
-    - _Normalsintensity: 0.4785318
+    - _Normalsintensity: 0.663
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SharpnessControl: 0.52

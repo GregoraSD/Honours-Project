@@ -1,0 +1,142 @@
+fileFormatVersion: 2
+guid: 688914d8a5401ea43af0345e5c446089
+timeCreated: 1499451712
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Back_ORI
+    100002: barrel
+    100004: Cube
+    100006: Cube.001
+    100008: Cube.003
+    100010: Cylinder
+    100012: Front_Ori
+    100014: Front_Ori.001
+    100016: Front_Ori.002
+    100018: MuzzleSight
+    100020: //RootNode
+    100022: Torus.001
+    100024: Trigger
+    100026: Trigger.001
+    400000: Back_ORI
+    400002: barrel
+    400004: Cube
+    400006: Cube.001
+    400008: Cube.003
+    400010: Cylinder
+    400012: Front_Ori
+    400014: Front_Ori.001
+    400016: Front_Ori.002
+    400018: MuzzleSight
+    400020: //RootNode
+    400022: Torus.001
+    400024: Trigger
+    400026: Trigger.001
+    2300000: Back_ORI
+    2300002: barrel
+    2300004: Cube
+    2300006: Cube.001
+    2300008: Cube.003
+    2300010: Cylinder
+    2300012: Front_Ori
+    2300014: Front_Ori.001
+    2300016: Front_Ori.002
+    2300018: MuzzleSight
+    2300020: Torus.001
+    2300022: Trigger
+    2300024: Trigger.001
+    3300000: Back_ORI
+    3300002: barrel
+    3300004: Cube
+    3300006: Cube.001
+    3300008: Cube.003
+    3300010: Cylinder
+    3300012: Front_Ori
+    3300014: Front_Ori.001
+    3300016: Front_Ori.002
+    3300018: MuzzleSight
+    3300020: Torus.001
+    3300022: Trigger
+    3300024: Trigger.001
+    4300000: Front_Ori.002
+    4300002: Front_Ori.001
+    4300004: Cube.003
+    4300006: Cylinder
+    4300008: Cube.001
+    4300010: Cube
+    4300012: Torus.001
+    4300014: Trigger.001
+    4300016: MuzzleSight
+    4300018: barrel
+    4300020: Trigger
+    4300022: Back_ORI
+    4300024: Front_Ori
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

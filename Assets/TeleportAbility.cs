@@ -37,7 +37,6 @@ public class TeleportAbility : MonoBehaviour
 
         if(isEnabled)
         {
-            Debug.Log("Enabled");
             if (Input.GetButtonDown("Jump"))
             {
                 if (cooldownTimer > cooldown)

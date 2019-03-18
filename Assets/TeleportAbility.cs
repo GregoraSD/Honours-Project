@@ -20,6 +20,8 @@ public class TeleportAbility : MonoBehaviour
     private float cooldown = 5.0f;
 
     private float cooldownTimer = 0.0f;
+
+    private bool isEnabled = false;
     private bool inPast = false;
     private bool inTeleport = false;
 
@@ -33,14 +35,18 @@ public class TeleportAbility : MonoBehaviour
     {
         cooldownTimer += Time.deltaTime;
 
-        if(Input.GetButtonDown("Jump"))
+        if(isEnabled)
         {
-            if(cooldownTimer > cooldown)
+            Debug.Log("Enabled");
+            if (Input.GetButtonDown("Jump"))
             {
-                cooldownTimer = 0.0f;
-                StartCoroutine(Teleport());
+                if (cooldownTimer > cooldown)
+                {
+                    cooldownTimer = 0.0f;
+                    StartCoroutine(Teleport());
+                }
+
             }
-            
         }
     }
 
@@ -63,4 +69,10 @@ public class TeleportAbility : MonoBehaviour
         flash.CrossFadeAlpha(0.0f, flashDuration, false);
         yield return null;
     }
+
+    public float GetCooldown() { return cooldown; }
+    public float GetCurrentCooldownTime() { return cooldownTimer; }
+    public bool IsReady() { return cooldownTimer > cooldown; }
+    public bool IsEnabled() { return isEnabled; }
+    public void SetEnabled(bool enabled) { isEnabled = enabled; }
 }

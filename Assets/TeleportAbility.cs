@@ -19,6 +19,15 @@ public class TeleportAbility : MonoBehaviour
     [SerializeField]
     private float cooldown = 5.0f;
 
+    [SerializeField]
+    private AudioSource teleportAudio;
+
+    [SerializeField]
+    private AudioSource[] pastAudio;
+
+    [SerializeField]
+    private AudioSource[] presentAudio;
+
     private float cooldownTimer = 0.0f;
 
     private bool isEnabled = false;
@@ -43,6 +52,7 @@ public class TeleportAbility : MonoBehaviour
                 {
                     cooldownTimer = 0.0f;
                     StartCoroutine(Teleport());
+                    teleportAudio.Play();
                 }
 
             }
@@ -58,10 +68,14 @@ public class TeleportAbility : MonoBehaviour
         inPast = !inPast;
         if(inPast)
         {
+            DisableAudioGroup(presentAudio);
+            EnableAudioGroup(pastAudio);
             transform.position += b.position - a.position;
         }
         else
         {
+            DisableAudioGroup(pastAudio);
+            EnableAudioGroup(presentAudio);
             transform.position += a.position - b.position;
         }
         yield return new WaitForSeconds(waitTime);
@@ -74,4 +88,20 @@ public class TeleportAbility : MonoBehaviour
     public bool IsReady() { return cooldownTimer > cooldown; }
     public bool IsEnabled() { return isEnabled; }
     public void SetEnabled(bool enabled) { isEnabled = enabled; }
+
+    private void EnableAudioGroup(AudioSource[] group)
+    {
+        for(int i = 0; i < group.Length; i++)
+        {
+            group[i].Play();
+        }
+    }
+
+    private void DisableAudioGroup(AudioSource[] group)
+    {
+        for (int i = 0; i < group.Length; i++)
+        {
+            group[i].Stop();
+        }
+    }
 }

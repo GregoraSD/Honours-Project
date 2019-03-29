@@ -24,6 +24,17 @@ public class PlayerController : MonoBehaviour
 
     public float max_x_turn = 15.0f;
 
+    public StepCycleCollection allStepCycles;
+    public StepCycleGroup activeStepCycle;
+
+    [SerializeField]
+    private AudioSource stepAudioSource;
+
+    [SerializeField]
+    private float stepCooldown = 0.5f;
+
+    private float stepTimer = 0.0f;
+
     // Use this for initialization
     void Start()
     {
@@ -72,6 +83,29 @@ public class PlayerController : MonoBehaviour
             forwardSpeed = Input.GetAxis("Vertical") * moveSpeed * moveScale;
             sideSpeed = Input.GetAxis("Horizontal") * moveSpeed * moveScale;
 
+            // Moving
+            if(forwardSpeed > 0 || forwardSpeed < 0 || sideSpeed > 0 || sideSpeed < 0)
+            {
+                stepTimer += Time.deltaTime;
+                if(stepTimer > stepCooldown)
+                {
+                    RaycastHit hitInfo;
+                    if(Physics.Raycast(transform.position, Vector3.down, out hitInfo, 2.0f))
+                    {
+                        StepCycleGroup hitGroup = allStepCycles.FindGroupWithTag(hitInfo.transform.gameObject.tag);
+                        activeStepCycle = hitGroup == null ? activeStepCycle : hitGroup;
+                    }
+
+                    stepAudioSource.clip = activeStepCycle.GetRandomClip();
+                    stepAudioSource.Play();
+                    stepTimer -= stepCooldown;
+                }
+            }
+            else
+            {
+                stepTimer = 0.0f;
+            }
+
             // Stop the player falling if they're grounded
             verticalVelocity = characterController.isGrounded ? -10.0f * gravityScale : verticalVelocity + (Physics.gravity.y * gravityScale * Time.deltaTime);
 
@@ -89,6 +123,11 @@ public class PlayerController : MonoBehaviour
     void EnablePlayer()
     {
         playerEnabled = true;
+    }
+
+    public void SetActiveStepGroup(StepCycleGroup newGroup)
+    {
+        activeStepCycle = newGroup;
     }
 
     private void OnDrawGizmos()

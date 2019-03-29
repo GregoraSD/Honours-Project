@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
             forwardSpeed = Input.GetAxis("Vertical") * moveSpeed * moveScale;
             sideSpeed = Input.GetAxis("Horizontal") * moveSpeed * moveScale;
 
-            // Moving
+            // If Moving
             if(forwardSpeed > 0 || forwardSpeed < 0 || sideSpeed > 0 || sideSpeed < 0)
             {
                 stepTimer += Time.deltaTime;

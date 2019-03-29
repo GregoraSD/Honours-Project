@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class TeleportAbility : MonoBehaviour
 {
@@ -28,11 +29,15 @@ public class TeleportAbility : MonoBehaviour
     [SerializeField]
     private AudioSource[] presentAudio;
 
+    [SerializeField]
+    private UnityEvent OnFirstTeleport;
+
     private float cooldownTimer = 0.0f;
 
     private bool isEnabled = false;
     private bool inPast = false;
     private bool inTeleport = false;
+    private bool hasTeleportedBefore = false;
 
     private void Start()
     {
@@ -81,6 +86,12 @@ public class TeleportAbility : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         flash.CrossFadeAlpha(0.0f, flashDuration, false);
         yield return null;
+
+        if(!hasTeleportedBefore)
+        {
+            OnFirstTeleport.Invoke();
+            hasTeleportedBefore = true;
+        }
     }
 
     public float GetCooldown() { return cooldown; }

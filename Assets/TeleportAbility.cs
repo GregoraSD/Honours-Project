@@ -39,6 +39,8 @@ public class TeleportAbility : MonoBehaviour
     private bool inTeleport = false;
     private bool hasTeleportedBefore = false;
 
+    public event System.Action OnTeleportWithCooldown;
+
     private void Start()
     {
         cooldownTimer = cooldown;
@@ -59,7 +61,15 @@ public class TeleportAbility : MonoBehaviour
                     StartCoroutine(Teleport());
                     teleportAudio.Play();
                 }
+            }
+        }
 
+        if(Input.GetButtonDown("Jump"))
+        {
+            if (cooldownTimer < cooldown || !isEnabled)
+            {
+                if (OnTeleportWithCooldown != null)
+                    OnTeleportWithCooldown();
             }
         }
     }

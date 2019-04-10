@@ -27,14 +27,14 @@ public class SpatialShift : MonoBehaviour
 
     private IEnumerator Shift()
     {
-        float startBlend = audioSource.spatialBlend;
+        float startBlend = audioSource.volume;
         float t = 0.0f;
 
         while(t < 1.0f)
         {
             t += Time.deltaTime * blendSpeed;
             float c = blendCurve.Evaluate(t);
-            float blend = Mathf.Lerp(startBlend, targetBlend, c);
+            audioSource.volume = Mathf.Lerp(startBlend, targetBlend, c);
             yield return null;
         }
     }

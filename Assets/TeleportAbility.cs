@@ -72,10 +72,16 @@ public class TeleportAbility : MonoBehaviour
                     OnTeleportWithCooldown();
             }
         }
-    }
+    }       
 
     private IEnumerator Teleport()
     {
+        if (!hasTeleportedBefore)
+        {
+            OnFirstTeleport.Invoke();
+            hasTeleportedBefore = true;
+        }
+
         inTeleport = true;
         flash.enabled = true;
         flash.CrossFadeAlpha(1.0f, flashDuration, false);
@@ -96,12 +102,6 @@ public class TeleportAbility : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         flash.CrossFadeAlpha(0.0f, flashDuration, false);
         yield return null;
-
-        if(!hasTeleportedBefore)
-        {
-            OnFirstTeleport.Invoke();
-            hasTeleportedBefore = true;
-        }
     }
 
     public float GetCooldown() { return cooldown; }

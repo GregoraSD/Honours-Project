@@ -30,6 +30,11 @@ public class DelayedFade : MonoBehaviour
         StartCoroutine(Fade());
     }
 
+    public void SetOutSpeed(float amount)
+    {
+        outSpeed = amount;
+    }
+
     private IEnumerator Fade()
     {
         yield return new WaitForSeconds(inDelay);

@@ -6,6 +6,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float moveSpeed = 2.0f, sensitivity = 5.0f, upDownRange = 6.0f;
 
+    [SerializeField]
+    private float controllerSensitivity = 5.0f;
+
     public float moveScale = 1.0f;
     public float rotationScale = 1.0f;
     public float gravityScale = 1.0f;
@@ -65,9 +68,11 @@ public class PlayerController : MonoBehaviour
             // New rotational code to allow for delta time and controller input
             float mouseY = -Input.GetAxis("Mouse Y");
             float mouseX = Input.GetAxis("Mouse X");
-            
-            rotY += mouseY * sensitivity * Time.deltaTime * rotationScale;
-            rotX = mouseX * sensitivity * Time.deltaTime * rotationScale; 
+            float controllerX = Input.GetAxis("HorizontalTurn");
+            float controllerY = Input.GetAxis("VerticalTurn");
+
+            rotY += mouseY * sensitivity * Time.deltaTime * rotationScale + (controllerY * controllerSensitivity * Time.deltaTime);
+            rotX = mouseX * sensitivity * Time.deltaTime * rotationScale + (controllerX * controllerSensitivity * Time.deltaTime); 
 
             rotXlist.Add(rotX);
 

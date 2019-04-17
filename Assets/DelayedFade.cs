@@ -4,6 +4,8 @@ using System.Collections;
 
 public class DelayedFade : MonoBehaviour
 {
+    public bool IsFading { get; private set; }
+
     [SerializeField]
     private float inDelay = 1;
 
@@ -37,6 +39,7 @@ public class DelayedFade : MonoBehaviour
 
     private IEnumerator Fade()
     {
+        IsFading = true;
         yield return new WaitForSeconds(inDelay);
 
         float t = 0.0f;
@@ -59,5 +62,7 @@ public class DelayedFade : MonoBehaviour
                 cr.SetAlpha(c);
             yield return null;
         }
+
+        IsFading = false;
     }
 }

@@ -7,6 +7,7 @@ TagManager:
   - Fire
   - Wood
   - Snow
+  - Mud
   layers:
   - Default
   - TransparentFX

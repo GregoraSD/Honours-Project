@@ -12,7 +12,7 @@ public class PlayerAwakeEvent : MonoBehaviour
 
     void Update()
     {
-        if(introCutscene.time > 30)
+        if(introCutscene.time > 32)
         {
             OnPlayerAwake.Invoke();
             Destroy(this);

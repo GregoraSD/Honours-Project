@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class MemoirManager : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class MemoirManager : MonoBehaviour
 
     [SerializeField] private DelayedFade textFade;
     [SerializeField] private TMPro.TextMeshProUGUI textGUI;
+    private Queue<Memoir> memoirQueue = new Queue<Memoir>();
 
     private void Awake()
     {
@@ -16,10 +18,29 @@ public class MemoirManager : MonoBehaviour
 
     public void DiscoverMemoir(Memoir memoir)
     {
-        FoundMemoirs++;
-        textGUI.text = "Memoir Found: " + FoundMemoirs + "/" + MemoirCount;
-
-        if(!textFade.IsFading)
+        if(textFade.IsFading)
+        {
+            memoirQueue.Enqueue(memoir);
+        }
+        else
+        {
+            FoundMemoirs++;
+            textGUI.text = "Memoir Found: " + FoundMemoirs + "/" + MemoirCount;
             textFade.BeginFade();
+        }
+    }
+
+    private void Update()
+    {
+        if(memoirQueue.Count > 0)
+        {
+            if(!textFade.IsFading)
+            {
+                memoirQueue.Dequeue();
+                FoundMemoirs++;
+                textGUI.text = "Memoir Found: " + FoundMemoirs + "/" + MemoirCount;
+                textFade.BeginFade();
+            }
+        }
     }
 }

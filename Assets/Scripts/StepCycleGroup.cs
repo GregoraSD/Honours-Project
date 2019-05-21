@@ -5,6 +5,7 @@ public class StepCycleGroup : ScriptableObject
 {
     public AudioClip[] clips;
     public string tag;
+    public float volume = 0.05f;
 
     public AudioClip GetRandomClip()
     {

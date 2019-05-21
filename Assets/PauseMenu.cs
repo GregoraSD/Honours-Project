@@ -12,6 +12,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject options;
     [SerializeField] private GameObject[] forceActive;
     [SerializeField] private GameObject[] forceInactive;
+    [SerializeField] private AudioSource pauseAudio;
 
     private Resolution[] resolutions;
 
@@ -64,6 +65,9 @@ public class PauseMenu : MonoBehaviour
 
     public void Toggle()
     {
+        pauseAudio.pitch = Random.Range(2.5f, 3);
+        pauseAudio.Play();
+        
         if(isActiveAndEnabled)
         {
             gameObject.SetActive(false);

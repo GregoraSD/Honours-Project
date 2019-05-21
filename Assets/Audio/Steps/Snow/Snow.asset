@@ -16,3 +16,4 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c7c318a0198c90140acfe011f1c919e7, type: 3}
   - {fileID: 8300000, guid: 8eab43a83bbabc14192fe78111cac1d6, type: 3}
   tag: Snow
+  volume: 0.05

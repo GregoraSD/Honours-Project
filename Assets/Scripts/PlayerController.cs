@@ -105,6 +105,8 @@ public class PlayerController : MonoBehaviour
                     }
 
                     stepAudioSource.clip = activeStepCycle.GetRandomClip();
+                    stepAudioSource.pitch = Random.Range(0.8f, 1.2f);
+                    stepAudioSource.volume = activeStepCycle.volume;
                     stepAudioSource.Play();
                     stepTimer -= stepCooldown;
                 }

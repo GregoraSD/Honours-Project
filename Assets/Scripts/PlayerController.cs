@@ -38,6 +38,9 @@ public class PlayerController : MonoBehaviour
 
     private float stepTimer = 0.0f;
 
+    [SerializeField]
+    private PauseMenu pauseMenu;
+
     // Use this for initialization
     void Start()
     {
@@ -117,6 +120,11 @@ public class PlayerController : MonoBehaviour
             Vector3 speed = new Vector3(sideSpeed, verticalVelocity, forwardSpeed);
             speed = transform.rotation * speed;
             characterController.Move(speed * Time.deltaTime);
+
+            if(Input.GetButtonDown("Pause"))
+            {
+                pauseMenu.Toggle();
+            }
         }
     }
 
@@ -140,5 +148,4 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position, new Vector3(1.0f, 2.0f, 1.0f));
     }
-
 }

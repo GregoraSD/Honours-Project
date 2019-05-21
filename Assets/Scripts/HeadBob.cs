@@ -164,8 +164,8 @@ public class HeadBob: MonoBehaviour
         transform.Rotate(bobRotationSum * moveScale, Space.Self);
         transform.Rotate(offsets, Space.Self);
 
-        rotationSum.x = Mathf.Lerp(rotationSum.x, 0.0f, rotationTimer.x * 0.5f);
-        rotationSum.z = Mathf.Lerp(rotationSum.z, 0.0f, rotationTimer.z * 0.5f);
+        //rotationSum.x = Mathf.Lerp(rotationSum.x, 0.0f, rotationTimer.x * 0.5f);
+        //rotationSum.z = Mathf.Lerp(rotationSum.z, 0.0f, rotationTimer.z * 0.5f);
 
         rotationTimer.x += Time.deltaTime * 0.1f;
         rotationTimer.y += Time.deltaTime * 0.1f;

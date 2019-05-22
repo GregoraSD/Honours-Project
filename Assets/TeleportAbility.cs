@@ -32,6 +32,9 @@ public class TeleportAbility : MonoBehaviour
     [SerializeField]
     private UnityEvent OnFirstTeleport;
 
+    [SerializeField]
+    private PauseMenu pauseMenu;
+
     private float cooldownTimer = 0.0f;
 
     private bool isEnabled = false;
@@ -47,11 +50,17 @@ public class TeleportAbility : MonoBehaviour
         flash.CrossFadeAlpha(0.0f, 0.0f, true);    
     }
 
-    private void Update()
+    public void Tick()
     {
         cooldownTimer += Time.deltaTime;
+    }
 
-        if(isEnabled)
+    private void Update()
+    {
+        if (pauseMenu.gameObject.activeInHierarchy) return;
+        cooldownTimer += Time.deltaTime;
+
+        if (isEnabled)
         {
             if (Input.GetButtonDown("Jump"))
             {
@@ -64,7 +73,7 @@ public class TeleportAbility : MonoBehaviour
             }
         }
 
-        if(Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump"))
         {
             if (cooldownTimer < cooldown || !isEnabled)
             {
@@ -72,7 +81,7 @@ public class TeleportAbility : MonoBehaviour
                     OnTeleportWithCooldown();
             }
         }
-    }       
+    }
 
     private IEnumerator Teleport()
     {
@@ -99,6 +108,7 @@ public class TeleportAbility : MonoBehaviour
             EnableAudioGroup(presentAudio);
             transform.position += a.position - b.position;
         }
+
         yield return new WaitForSeconds(waitTime);
         flash.CrossFadeAlpha(0.0f, flashDuration, false);
         yield return null;

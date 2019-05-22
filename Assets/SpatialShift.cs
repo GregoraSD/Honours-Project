@@ -13,11 +13,15 @@ public class SpatialShift : MonoBehaviour
     [SerializeField]
     private float blendSpeed = 1.0f;
 
+    [SerializeField]
+    private bool workOnAwake = false;
+
     private AudioSource audioSource;
 
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();        
+        audioSource = GetComponent<AudioSource>();
+        if (workOnAwake) BeginShift();
     }
 
     public void BeginShift()

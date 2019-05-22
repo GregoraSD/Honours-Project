@@ -21,10 +21,15 @@ public class DelayedFade : MonoBehaviour
     [SerializeField]
     private CanvasRenderer[] uiElements;
 
+    [SerializeField]
+    private bool fadeOnAwake = false;
+
     private void Awake()
     {
         foreach (CanvasRenderer cr in uiElements)
             cr.SetAlpha(0);
+
+        if (fadeOnAwake) BeginFade();
     }
 
     public void BeginFade()

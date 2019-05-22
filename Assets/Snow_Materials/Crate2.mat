@@ -8,7 +8,7 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: Crate2
   m_Shader: {fileID: 4800000, guid: 5fb8a524e614e0c459392d12bb4a6652, type: 3}
-  m_ShaderKeywords: _DESACTIVATEGROUNDSNOW_ON
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -100,9 +100,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
-    - _Coveragecontrol: -0.28
+    - _Coveragecontrol: -0.12
     - _Cutoff: 0.5
-    - _Desactivategroundsnow: 1
+    - _Desactivategroundsnow: 0
     - _DetailNormalMapScale: 1
     - _Detailtiling: 15
     - _DstBlend: 0
@@ -110,20 +110,20 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _GroundSnow: 0.56
-    - _IcinessSpecular: 0.75
+    - _GroundSnow: 0.55
+    - _IcinessSpecular: 0.72
     - _Metallic: 0
     - _Metalness: 0
     - _Mode: 0
     - _NormalsImportance: 0.375
-    - _Normalsintensity: 0.4785318
+    - _Normalsintensity: 0.432
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _SharpnessControl: 0.5
+    - _SharpnessControl: 0.476
     - _Sharpnesscontrol: 0.58
-    - _Smoothness: 0.35
+    - _Smoothness: 0.144
     - _SmoothnessTextureChannel: 0
-    - _Snownormalsintensity: 0.3
+    - _Snownormalsintensity: 0.533
     - _Snowtiling: 1
     - _SpecularHighlights: 1
     - _Speculartiling: 1

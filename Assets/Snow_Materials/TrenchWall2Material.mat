@@ -121,7 +121,7 @@ Material:
     - _Parallax: 0.02
     - _SharpnessControl: 0.579
     - _Sharpnesscontrol: 0.58
-    - _Smoothness: 0.35
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _Snownormalsintensity: 1
     - _Snowtiling: 1
@@ -132,7 +132,7 @@ Material:
     - _VerticalaxisImportance: 0.448
     - _XaxisImportance: -1
     - _ZWrite: 1
-    - _ZaxisImportance: -0.03
+    - _ZaxisImportance: -0.06
     - __dirty: 1
     m_Colors:
     - _Albedocolormodifier: {r: 1, g: 1, b: 1, a: 0}

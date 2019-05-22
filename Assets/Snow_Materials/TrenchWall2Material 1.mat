@@ -100,7 +100,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
-    - _Coveragecontrol: -0.36
+    - _Coveragecontrol: 0.03
     - _Cutoff: 0.5
     - _Desactivategroundsnow: 0
     - _DetailNormalMapScale: 1
@@ -113,26 +113,26 @@ Material:
     - _GroundSnow: 0.56
     - _IcinessSpecular: 1
     - _Metallic: 0
-    - _Metalness: 0
+    - _Metalness: 0.193
     - _Mode: 0
     - _NormalsImportance: 0
-    - _Normalsintensity: 0
+    - _Normalsintensity: 0.333
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SharpnessControl: 0.663
     - _Sharpnesscontrol: 0.58
-    - _Smoothness: 0.35
+    - _Smoothness: 0.077
     - _SmoothnessTextureChannel: 0
-    - _Snownormalsintensity: 1
+    - _Snownormalsintensity: 0.5
     - _Snowtiling: 1
     - _SpecularHighlights: 1
-    - _Speculartiling: 6.39
+    - _Speculartiling: 5.99
     - _SrcBlend: 1
     - _UVSec: 0
     - _VerticalaxisImportance: 0.69
-    - _XaxisImportance: -0.16
+    - _XaxisImportance: 1
     - _ZWrite: 1
-    - _ZaxisImportance: -0.03
+    - _ZaxisImportance: -0.05
     - __dirty: 1
     m_Colors:
     - _Albedocolormodifier: {r: 1, g: 1, b: 1, a: 0}

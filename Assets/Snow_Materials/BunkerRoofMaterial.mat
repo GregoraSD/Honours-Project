@@ -111,19 +111,19 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _GroundSnow: 0.56
-    - _IcinessSpecular: 1
+    - _IcinessSpecular: 0.8
     - _Metallic: 0
     - _Metalness: 0
     - _Mode: 0
     - _NormalsImportance: 0.5
-    - _Normalsintensity: 0
+    - _Normalsintensity: 0.393
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SharpnessControl: 0.456
     - _Sharpnesscontrol: 0.58
     - _Smoothness: 0.35
     - _SmoothnessTextureChannel: 0
-    - _Snownormalsintensity: 0.3
+    - _Snownormalsintensity: 0.62
     - _Snowtiling: 1
     - _SpecularHighlights: 1
     - _Speculartiling: 1

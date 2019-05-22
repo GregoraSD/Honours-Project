@@ -27,7 +27,13 @@ public class TeleportAbility : MonoBehaviour
     private AudioSource[] pastAudio;
 
     [SerializeField]
+    private GameObject[] pastObjects;
+
+    [SerializeField]
     private AudioSource[] presentAudio;
+
+    [SerializeField]
+    private GameObject[] presentObjects;
 
     [SerializeField]
     private UnityEvent OnFirstTeleport;
@@ -99,13 +105,17 @@ public class TeleportAbility : MonoBehaviour
         if(inPast)
         {
             DisableAudioGroup(presentAudio);
+            DisableObjectGroup(presentObjects);
             EnableAudioGroup(pastAudio);
+            EnableObjectGroup(pastObjects);
             transform.position += b.position - a.position;
         }
         else
         {
             DisableAudioGroup(pastAudio);
+            DisableObjectGroup(pastObjects);
             EnableAudioGroup(presentAudio);
+            EnableObjectGroup(presentObjects);
             transform.position += a.position - b.position;
         }
 
@@ -128,11 +138,27 @@ public class TeleportAbility : MonoBehaviour
         }
     }
 
+    private void EnableObjectGroup(GameObject[] group)
+    {
+        for(int i = 0; i < group.Length; i++)
+        {
+            group[i].SetActive(true);
+        }
+    }
+
     private void DisableAudioGroup(AudioSource[] group)
     {
         for (int i = 0; i < group.Length; i++)
         {
             group[i].Stop();
+        }
+    }
+
+    private void DisableObjectGroup(GameObject[] group)
+    {
+        for(int i = 0; i < group.Length; i++)
+        {
+            group[i].SetActive(false);
         }
     }
 }

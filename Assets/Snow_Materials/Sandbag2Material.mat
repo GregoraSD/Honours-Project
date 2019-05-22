@@ -19,7 +19,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AlbedoA:
-        m_Texture: {fileID: 2800000, guid: a26c3a2aa6c24ae4aa11510c30df0ae0, type: 3}
+        m_Texture: {fileID: 2800000, guid: 49930d30f686cd24ab765882c8a4b75b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -59,11 +59,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetalnessS:
-        m_Texture: {fileID: 2800000, guid: 318053d3cd40492499717507dcb29cc4, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8165a1c870f568b4a97def600008aa5b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normals:
-        m_Texture: {fileID: 2800000, guid: 937cfeadf9eac3f4985ecf681eed4d29, type: 3}
+        m_Texture: {fileID: 2800000, guid: e03c9dc9c2d17014dbf2b18df16fd738, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Occlusion:
@@ -116,14 +116,14 @@ Material:
     - _Metalness: 0
     - _Mode: 0
     - _NormalsImportance: 0.16
-    - _Normalsintensity: 0.4785318
+    - _Normalsintensity: 0.518
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _SharpnessControl: 0.554
+    - _SharpnessControl: 0.303
     - _Sharpnesscontrol: 0.58
     - _Smoothness: 0.35
     - _SmoothnessTextureChannel: 0
-    - _Snownormalsintensity: 0.402
+    - _Snownormalsintensity: 0.475
     - _Snowtiling: 1
     - _SpecularHighlights: 1
     - _Speculartiling: 1

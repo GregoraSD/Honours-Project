@@ -18,15 +18,26 @@ public class LightFlicker : MonoBehaviour
     public Vector2 rangePause = Vector2.one;
     public Vector2Int rangeSwap = Vector2Int.one;
 
+    [Header("Shadow Parameters")]
+    public float averageShadowStrength = 1.0f;
+    public Vector2 shadowDistance = Vector2.one;
+    public Vector2 shadowSpeed = Vector2.one;
+    public Vector2 shadowPause = Vector2.one;
+    public Vector2Int shadowSwap = Vector2Int.one;
+
     private Light l;
     private int intensitySwapCount = 0;
     private int rangeSwapCount = 0;
+    private int shadowSwapCount = 0;
 
     private float currentIntensitySpeed, currentIntensityDistance;
     private int currentIntensitySwap;
 
     private float currentRangeSpeed, currentRangeDistance;
     private int currentRangeSwap;
+
+    private float currentShadowSpeed, currentShadowDistance;
+    private int currentShadowSwap;
 
     private void Start()
     {
@@ -35,6 +46,7 @@ public class LightFlicker : MonoBehaviour
         Init();
         StartCoroutine(RangeFlicker());
         StartCoroutine(IntensityFlicker());
+        StartCoroutine(ShadowFlicker());
     }
 
     private void Init()
@@ -46,6 +58,10 @@ public class LightFlicker : MonoBehaviour
         currentRangeSpeed = Random.Range(rangeSpeed.x, rangeSpeed.y);
         currentRangeDistance = Random.Range(rangeDistance.x, rangeDistance.y);
         currentRangeSwap = Random.Range(rangeSwap.x, rangeSwap.y);
+
+        currentShadowSpeed = Random.Range(shadowSpeed.x, shadowSpeed.y);
+        currentShadowDistance = Random.Range(shadowDistance.x, shadowDistance.y);
+        currentShadowSwap = Random.Range(shadowSwap.x, shadowSwap.y);
     }
 
     private IEnumerator IntensityFlicker()
@@ -92,5 +108,28 @@ public class LightFlicker : MonoBehaviour
         }
 
         StartCoroutine(RangeFlicker());
+    }
+
+    private IEnumerator ShadowFlicker()
+    {
+        shadowSwapCount++;
+        float t = 0.0f;
+
+        if (shadowSwapCount > currentShadowSwap)
+        {
+            currentShadowSpeed = Random.Range(shadowSpeed.x, shadowSpeed.y);
+            currentShadowDistance = Random.Range(shadowDistance.x, shadowDistance.y);
+            currentShadowSwap = Random.Range(shadowSwap.x, shadowSwap.y);
+            shadowSwapCount = 0;
+        }
+
+        while (t < 2 * Mathf.PI)
+        {
+            l.shadowStrength = averageShadowStrength + Mathf.Sin(t) * currentShadowDistance;
+            t += Time.deltaTime * currentShadowSpeed;
+            yield return null;
+        }
+
+        StartCoroutine(ShadowFlicker());
     }
 }

@@ -15,7 +15,7 @@ public class RoomFader : MonoBehaviour
         DetermineClosestRoom();    
     }
 
-    private void DetermineClosestRoom()
+    public void DetermineClosestRoom()
     {
         int currentClosest = 0;
         float currentClosestDistance = Vector3.SqrMagnitude(rooms[currentClosest].transform.position - target.position);

@@ -41,6 +41,9 @@ public class TeleportAbility : MonoBehaviour
     [SerializeField]
     private PauseMenu pauseMenu;
 
+    [SerializeField]
+    private RoomFader roomFader;
+
     private float cooldownTimer = 0.0f;
 
     private bool isEnabled = false;
@@ -121,6 +124,7 @@ public class TeleportAbility : MonoBehaviour
 
         yield return new WaitForSeconds(waitTime);
         flash.CrossFadeAlpha(0.0f, flashDuration, false);
+        roomFader.DetermineClosestRoom();
         yield return null;
     }
 

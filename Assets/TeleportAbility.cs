@@ -44,6 +44,9 @@ public class TeleportAbility : MonoBehaviour
     [SerializeField]
     private RoomFader roomFader;
 
+    [SerializeField]
+    private AudioSource teleportReady, teleportFail;
+
     private float cooldownTimer = 0.0f;
 
     private bool isEnabled = false;
@@ -67,7 +70,11 @@ public class TeleportAbility : MonoBehaviour
     private void Update()
     {
         if (pauseMenu.gameObject.activeInHierarchy) return;
+
+        bool checkReady = cooldownTimer < cooldown;
         cooldownTimer += Time.deltaTime;
+
+        if (checkReady && cooldownTimer > cooldown && isEnabled) teleportReady.Play();
 
         if (isEnabled)
         {
@@ -78,6 +85,10 @@ public class TeleportAbility : MonoBehaviour
                     cooldownTimer = 0.0f;
                     StartCoroutine(Teleport());
                     teleportAudio.Play();
+                }
+                else
+                {
+                    teleportFail.Play();
                 }
             }
         }

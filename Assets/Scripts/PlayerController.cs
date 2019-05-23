@@ -95,6 +95,7 @@ public class PlayerController : MonoBehaviour
             if(forwardSpeed > 0 || forwardSpeed < 0 || sideSpeed > 0 || sideSpeed < 0)
             {
                 stepTimer += Time.deltaTime;
+
                 if(stepTimer > stepCooldown)
                 {
                     RaycastHit hitInfo;

@@ -8,6 +8,7 @@ public class MemoirManager : MonoBehaviour
 
     [SerializeField] private DelayedFade textFade;
     [SerializeField] private TMPro.TextMeshProUGUI textGUI;
+    [SerializeField] private AudioSource foundAudio;
     private Queue<Memoir> memoirQueue = new Queue<Memoir>();
 
     private void Awake()
@@ -27,6 +28,7 @@ public class MemoirManager : MonoBehaviour
             FoundMemoirs++;
             textGUI.text = "Memoir Found: " + FoundMemoirs + "/" + MemoirCount;
             textFade.BeginFade();
+            foundAudio.Play();
         }
     }
 
@@ -40,6 +42,7 @@ public class MemoirManager : MonoBehaviour
                 FoundMemoirs++;
                 textGUI.text = "Memoir Found: " + FoundMemoirs + "/" + MemoirCount;
                 textFade.BeginFade();
+                foundAudio.Play();
             }
         }
     }

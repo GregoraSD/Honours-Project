@@ -93,6 +93,14 @@ public class TeleportAbility : MonoBehaviour
             }
         }
 
+        if(!isEnabled)
+        {
+            if(Input.GetButtonDown("Jump"))
+            {
+                teleportFail.Play();
+            }
+        }
+
         if (Input.GetButtonDown("Jump"))
         {
             if (cooldownTimer < cooldown || !isEnabled)

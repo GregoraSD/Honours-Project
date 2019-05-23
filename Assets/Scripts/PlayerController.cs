@@ -94,7 +94,10 @@ public class PlayerController : MonoBehaviour
             // If Moving
             if(forwardSpeed > 0 || forwardSpeed < 0 || sideSpeed > 0 || sideSpeed < 0)
             {
-                stepTimer += Time.deltaTime;
+                float timerScale = Mathf.Abs(Input.GetAxis("Vertical"));
+                if(Mathf.Abs(Input.GetAxis("Horizontal")) > timerScale) timerScale = Mathf.Abs(Input.GetAxis("Horizontal"));
+
+                stepTimer += Time.deltaTime * timerScale;
 
                 if(stepTimer > stepCooldown)
                 {

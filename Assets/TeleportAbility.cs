@@ -52,6 +52,7 @@ public class TeleportAbility : MonoBehaviour
     private bool isEnabled = false;
     private bool inPast = false;
     private bool inTeleport = false;
+    private bool isVisible = false;
     private bool hasTeleportedBefore = false;
 
     public event System.Action OnTeleportWithCooldown;
@@ -93,9 +94,9 @@ public class TeleportAbility : MonoBehaviour
             }
         }
 
-        if(!isEnabled)
+        if (!isEnabled && isVisible)
         {
-            if(Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Jump"))
             {
                 teleportFail.Play();
             }
@@ -151,7 +152,7 @@ public class TeleportAbility : MonoBehaviour
     public float GetCurrentCooldownTime() { return cooldownTimer; }
     public bool IsReady() { return cooldownTimer > cooldown; }
     public bool IsEnabled() { return isEnabled; }
-    public void SetEnabled(bool enabled) { isEnabled = enabled; }
+    public void SetEnabled(bool enabled) { isEnabled = enabled; isVisible = true; }
 
     private void EnableAudioGroup(AudioSource[] group)
     {
